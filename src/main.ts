@@ -7,7 +7,7 @@ if (started) {
   app.quit();
 }
 
-const createWindow = () => {
+const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -15,14 +15,12 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    icon: 'assets/logo.png'
   });
 
-  // and load the index.html of the app.
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-  } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
-  }
+  const url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games';
+
+  await mainWindow.loadURL(url);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
