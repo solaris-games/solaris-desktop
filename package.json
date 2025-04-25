@@ -41,9 +41,9 @@
     "vite": "^5.4.14"
   },
   "optionalDependencies": {
-    "@esbuild/linux-x64": "^0.21.5",
-    "@esbuild/darwin-arm64": "^0.21.5",
-    "@esbuild/win32-x64-msvc": "^0.21.5"
+    "@rollup/rollup-linux-x64-gnu": "^4.35.0",
+    "@rollup/rollup-darwin-arm64": "^4.35.0",
+    "@rollup/rollup-win32-x64-msvc": "^4.35.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1"
