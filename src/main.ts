@@ -30,9 +30,19 @@ const createWindow = async () => {
     mainWindow.removeMenu();
 
     mainWindow.webContents.on('before-input-event', (event, input) => {
-        if (input.control && input.key.toLowerCase() === 'r') {
+        if ((input.control && input.key.toLowerCase() === 'r') || input.key.toLowerCase() === 'f5') {
             mainWindow.reload();
-            event.preventDefault()
+            event.preventDefault();
+        }
+
+        if (input.key.toLowerCase() === 'f12') {
+            mainWindow.webContents.toggleDevTools();
+            event.preventDefault();
+        }
+
+        if (input.key.toLowerCase() === 'f11') {
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
+            event.preventDefault();
         }
     });
 
