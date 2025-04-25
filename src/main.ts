@@ -18,6 +18,13 @@ const createWindow = async () => {
 
   mainWindow.removeMenu();
 
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.control && input.key.toLowerCase() === 'r') {
+      mainWindow.reload();
+      event.preventDefault()
+    }
+  });
+
   const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
 
   await mainWindow.loadURL(url);
