@@ -1,0 +1,63 @@
+name: Package solaris-desktop
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package-solaris-desktop-linux:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run npm install
+        run: |
+          npm install
+      - name: Run npm run make:linux
+        run: |
+          npm run make:linux
+  package-solaris-desktop-mac:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run npm install
+        run: |
+          npm install
+      - name: Run npm run make:mac
+        run: |
+          npm run make:mac
+  package-solaris-desktop-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run npm install
+        run: |
+          npm install
+      - name: Run npm run make:windows
+        run: |
+          npm run make:windows

@@ -1,0 +1,1 @@
+export const CONVERSATION_MESSAGE_RECEIVED = 'onConversationMessageReceived';
