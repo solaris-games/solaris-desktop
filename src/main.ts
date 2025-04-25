@@ -1,14 +1,17 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
+import {app, BrowserWindow, ipcMain, nativeImage } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import {CONVERSATION_MESSAGE_RECEIVED} from "./integration/events";
 import {MessageData} from "./integration/messages";
-import {postNotification} from "./main/notification";
+import {createNotificationHandler} from "./main/notification";
+import logoIcon from './assets/logo.png?inline';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
     app.quit();
 }
+
+const solarisIcon = nativeImage.createFromDataURL(logoIcon);
 
 const createWindow = async () => {
     // Create the browser window.
@@ -17,7 +20,7 @@ const createWindow = async () => {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
-        icon: 'assets/logo.png',
+        icon: solarisIcon,
         backgroundColor: '#000000',
         resizable: true,
         maximizable: true,
@@ -68,6 +71,8 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+const postNotification = createNotificationHandler(solarisIcon);
 
 ipcMain.on(CONVERSATION_MESSAGE_RECEIVED, (event, dataRaw) => {
     const data = dataRaw as MessageData;

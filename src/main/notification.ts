@@ -1,8 +1,9 @@
-import { Notification } from 'electron';
+import { Notification, NativeImage } from 'electron';
 
-export const postNotification = (title: string, content: string) => {
+export const createNotificationHandler = (icon: NativeImage) => (title: string, content: string) => {
     new Notification({
         title,
         body: content,
+        icon,
     }).show();
 }
