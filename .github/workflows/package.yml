@@ -1,0 +1,19 @@
+name: Package solaris-desktop
+
+jobs:
+  package-solaris-desktop:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run npm install
+        run: |
+          npm install
+      - name: Run npm run package
+        run: |
+          npm run package
