@@ -1,44 +1,44 @@
-import { app, BrowserWindow } from 'electron';
+import {app, BrowserWindow} from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
-  app.quit();
+    app.quit();
 }
 
 const createWindow = async () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    show: false,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-    icon: 'assets/logo.png',
-    backgroundColor: '#000000',
-    resizable: true,
-    maximizable: true,
-    minimizable: true,
-  });
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+        show: false,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+        },
+        icon: 'assets/logo.png',
+        backgroundColor: '#000000',
+        resizable: true,
+        maximizable: true,
+        minimizable: true,
+    });
 
-  mainWindow.removeMenu();
+    mainWindow.removeMenu();
 
-  mainWindow.webContents.on('before-input-event', (event, input) => {
-    if (input.control && input.key.toLowerCase() === 'r') {
-      mainWindow.reload();
-      event.preventDefault()
-    }
-  });
+    mainWindow.webContents.on('before-input-event', (event, input) => {
+        if (input.control && input.key.toLowerCase() === 'r') {
+            mainWindow.reload();
+            event.preventDefault()
+        }
+    });
 
-  mainWindow.maximize();
+    mainWindow.maximize();
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-  })
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show()
+    })
 
-  const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
+    const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
 
-  await mainWindow.loadURL(url);
+    await mainWindow.loadURL(url);
 };
 
 // This method will be called when Electron has finished
@@ -50,17 +50,17 @@ app.on('ready', createWindow);
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
 });
 
 // In this file you can include the rest of your app's specific main process
