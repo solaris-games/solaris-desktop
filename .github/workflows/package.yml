@@ -1,5 +1,8 @@
 name: Package solaris-desktop
 
+on:
+  workflow_dispatch:
+
 jobs:
   package-solaris-desktop-linux:
     runs-on: ubuntu-latest
