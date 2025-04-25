@@ -36,9 +36,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run npm ci
+      - name: Run npm install
         run: |
-          npm ci
+          npm install
       - name: Run npm run make:mac
         run: |
           npm run make:mac
