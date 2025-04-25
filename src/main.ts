@@ -10,10 +10,15 @@ if (started) {
 const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: 'assets/logo.png'
+    icon: 'assets/logo.png',
+    backgroundColor: '#000000',
+    resizable: true,
+    maximizable: true,
+    minimizable: true,
   });
 
   mainWindow.removeMenu();
@@ -24,6 +29,12 @@ const createWindow = async () => {
       event.preventDefault()
     }
   });
+
+  mainWindow.maximize();
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
 
   const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
 
