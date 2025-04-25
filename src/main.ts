@@ -1,6 +1,9 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import {CONVERSATION_MESSAGE_RECEIVED} from "./integration/events";
+import {MessageData} from "./integration/messages";
+import {postNotification} from "./main/notification";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -65,3 +68,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+ipcMain.on(CONVERSATION_MESSAGE_RECEIVED, (event, dataRaw) => {
+    const data = dataRaw as MessageData;
+
+    postNotification(`New message in ${data.gameName}`, `${data.fromPlayerAlias} has sent you a message in the game ${data.gameName}`);
+});
