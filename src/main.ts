@@ -10,20 +10,17 @@ if (started) {
 const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
     icon: 'assets/logo.png'
   });
 
-  const url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games';
+  mainWindow.removeMenu();
+
+  const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
 
   await mainWindow.loadURL(url);
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
