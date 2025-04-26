@@ -2,6 +2,13 @@ name: Package solaris-desktop
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release name'
+        required: false
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   package-solaris-desktop-linux:
@@ -79,3 +86,35 @@ jobs:
           name: solaris-desktop-windows
           path: out/make/zip/win32/x64/*.zip
           retention-days: 3
+  release:
+    needs: [ package-solaris-desktop-linux, package-solaris-desktop-mac, package-solaris-desktop-windows ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: solaris-desktop-linux
+          path: artifacts/linux
+
+      - name: Download macOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: solaris-desktop-mac
+          path: artifacts/macos
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: solaris-desktop-windows
+          path: artifacts/windows
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: tag != ''
+        with:
+          name: Release ${{ tag }}
+          tag_name: ${{ tag }}
+          files: |
+            artifacts/linux/**
+            artifacts/macos/**
+            artifacts/windows/**
