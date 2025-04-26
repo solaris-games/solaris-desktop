@@ -88,6 +88,7 @@ jobs:
           retention-days: 3
   release:
     needs: [ package-solaris-desktop-linux, package-solaris-desktop-mac, package-solaris-desktop-windows ]
+    if: ${{ inputs.tag != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux artifact
@@ -110,10 +111,9 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        if: github.event.inputs.tag != ''
         with:
-          name: Release ${{ github.event.inputs.tag }}
-          tag_name: ${{ github.event.inputs.tag }}
+          name: Release ${{ inputs.tag }}
+          tag_name: ${{ inputs.tag }}
           files: |
             artifacts/linux/**
             artifacts/macos/**
