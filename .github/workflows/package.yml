@@ -110,10 +110,10 @@ jobs:
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
-        if: tag != ''
+        if: github.event.inputs.tag != ''
         with:
-          name: Release ${{ tag }}
-          tag_name: ${{ tag }}
+          name: Release ${{ github.event.inputs.tag }}
+          tag_name: ${{ github.event.inputs.tag }}
           files: |
             artifacts/linux/**
             artifacts/macos/**
