@@ -28,6 +28,7 @@ jobs:
         with:
           name: solaris-desktop-linux
           path: out/make/zip/linux/x64/*.zip
+          retention-days: 3
   package-solaris-desktop-mac:
     runs-on: macos-latest
     permissions:
@@ -52,6 +53,7 @@ jobs:
         with:
           name: solaris-desktop-mac
           path: out/make/zip/darwin/arm64/*.zip
+          retention-days: 3
   package-solaris-desktop-windows:
     runs-on: windows-latest
     permissions:
@@ -76,3 +78,4 @@ jobs:
         with:
           name: solaris-desktop-windows
           path: out/make/zip/win32/x64/*.zip
+          retention-days: 3
