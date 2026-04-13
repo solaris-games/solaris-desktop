@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain, nativeImage } from 'electron';
+import {app, BrowserWindow, ipcMain, nativeImage, shell } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 import {CONVERSATION_MESSAGE_RECEIVED} from "./integration/events";
@@ -46,6 +46,11 @@ const createWindow = async () => {
         }
     });
 
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+         shell.openExternal(url);
+         return { action: 'deny' };
+    });
+
     mainWindow.maximize();
 
     mainWindow.once('ready-to-show', () => {
@@ -54,12 +59,10 @@ const createWindow = async () => {
 
     const url = app.isPackaged ? 'https://solaris.games' : 'http://localhost:8080';
 
-    await mainWindow.loadURL(url);
+    await mainWindow.loadURL(url).catch((err) => {
+        console.error('Failed to load URL:', err);
+    });
 };
-
-if (process.platform === 'linux') {
-    app.commandLine.appendSwitch('no-sandbox');
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
